@@ -1,0 +1,42 @@
+Reader-writer program using processes
+Written by Evan Jackson
+
+To compile, run:
+make
+OR, run:
+cc -c queue.c
+cc -c set.c
+cc -c monitor.c
+cc -c process_sync.c
+cc -c reader_writer.c
+cc queue.o set.o monitor.o process_sync.o reader_writer.o -o readWrite
+
+To run:
+./readWrite
+
+The program asks for users to input the number of readers and writers
+to be created, and a string of r's and w's representing the operations
+to be performed on the shared buffer. The buffer size is set to 1 by
+default and can be changed in buffer.h. The program then creates the
+number of readers and writers as chosen by the user. Once each process
+is created, it immediately suspends itself using pause(). The monitor
+program always waits for 1 second to ensure that each child has
+time to suspend itself. The monitor then adds all processes to either
+the reader queue or the writer queue. The monitor then goes through
+the user's operations sequentially. If a read operation is required,
+the monitor pops a reader off the reader queue, resumes the process,
+and the process reads from the buffer (but removes nothing). If a 
+write operation is encountered, the monitor pops a writer off the
+writer queue, resumes the process, and the process writes to the 
+buffer (each sequential writer advances one slot in the buffer).
+Once a process has been resumed the monitor adds it to the active
+set. If either queue is empty, the monitor program simply creates
+a new reader or writer and adds it to the active set.
+If a process is unable to acquire a lock to enter its critical
+section, it simply waits. If a reader reads a buffer that is empty,
+it reads a 0. After each process completes its task, it 
+suspends itself. After each operation, the monitor checks the active
+set, and if any processes in it are currently suspended, it removes
+them from the set and adds them to the appropriate queue. 
+Once all operations have been performed, the monitor kills all suspended
+processes and displays the buffer.
