@@ -94,23 +94,23 @@ int main(int argc, char* argv[])
 	/* Set up shared memory */
 	/* Allocate mutex shared memory */
 	mutex_segment_id = shmget(IPC_PRIVATE, mutex_size, S_IRUSR | S_IWUSR);
-    mutex_shm = (pthread_mutex_t *)shmat(mutex_segment_id, NULL, 0); 
-    printf("Mutex shared memory pointer=%x\n", mutex_shm);
+        mutex_shm = (pthread_mutex_t *)shmat(mutex_segment_id, NULL, 0); 
+	printf("Mutex shared memory pointer=%x\n", mutex_shm);
 	/* Allocate WRT semaphore shared memory */
 	wrt_segment_id = shmget(IPC_PRIVATE, wrt_size, S_IRUSR | S_IWUSR);
 	wrt_shm = (pthread_mutex_t *)shmat(wrt_segment_id, NULL, 0);
 	printf("WRT semaphore memory pointer=%x\n", wrt_shm);
 	/* Allocate buffer shared memory */
-    buffer_segment_id = shmget(IPC_PRIVATE, buffer_size, S_IRUSR | S_IWUSR); 
-    buffer = (buffer_item *)shmat(buffer_segment_id, NULL, 0); 
-    printf("Buffer shared memory pointer=%x\n", buffer);
+	buffer_segment_id = shmget(IPC_PRIVATE, buffer_size, S_IRUSR | S_IWUSR); 
+        buffer = (buffer_item *)shmat(buffer_segment_id, NULL, 0); 
+	printf("Buffer shared memory pointer=%x\n", buffer);
 	/* Allocate buffer pointer shared memory */ 
-    pointer_segment_id = shmget(IPC_PRIVATE, pointer_size, S_IRUSR | S_IWUSR);
-    pointer = (int*)shmat(pointer_segment_id, NULL, 0); 
-    printf("IN shared memory pointer=%x\n", pointer);
+	pointer_segment_id = shmget(IPC_PRIVATE, pointer_size, S_IRUSR | S_IWUSR);
+        pointer = (int*)shmat(pointer_segment_id, NULL, 0); 
+	printf("IN shared memory pointer=%x\n", pointer);
 
 	/* Initialize mutex */
-    pthread_mutex_init(mutex_shm, NULL);
+	pthread_mutex_init(mutex_shm, NULL);
 	/* Initialize WRT semaphore */
 	pthread_mutex_init(wrt_shm, NULL);
 
